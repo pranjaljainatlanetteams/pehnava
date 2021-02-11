@@ -6,7 +6,7 @@ import {Switch,Route} from 'react-router-dom';
 import ShopPage from './pages/homePage/shop/shop.component.js'
 import Header from './components/header/header-component.js'
 import SignInAndSignUpPage from './pages/signin-signup/signin-signup';
-import { auth } from './firebase/firebase.utils'
+import { createUserProfileDocument,auth } from './firebase/firebase.utils'
 
 //we want to store the set of user in our app..jab bhi kisi bhi method se sign up kre to wo user store ho jae app.js me taki apn ko pata rhe ki konse user ne sign up kiya hai abi aur uski id aur password kya hai.Because we want the current user object through out the application.
 
@@ -24,11 +24,27 @@ class App extends React.Component  {
 
   unsubscribeFromAuth = null
   componentDidMount(){
-    this.unsubscribeFromAuth=auth.onAuthStateChanged(user =>{
-      this.setState({currentUser:user})
-      console.log(user);
+    this.unsubscribeFromAuth=auth.onAuthStateChanged(async userAuth =>{
+      if (userAuth){
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot(snapShot=>{
+           //we have to use the data word here to see the data which is being in use.
+            this.setState({
+              currentUser:{
+                id:snapShot.id,
+                ...snapShot.data()
+              }
+            });
+            console.log(this.state);
+          })
+      }
+      else{
+        this.setState({currentUser:userAuth})
+      }
+      
+      
       //abhi jo user login hai wo store ho jaega current user me uski value aa jaegi.
-    })
+    });
   }
   componentWillUnmount(){
     this.unsubscribeFromAuth();
