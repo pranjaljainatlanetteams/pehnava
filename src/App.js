@@ -8,6 +8,7 @@ import Header from './components/header/header-component.js'
 import SignInAndSignUpPage from './pages/signin-signup/signin-signup';
 import { createUserProfileDocument,auth } from './firebase/firebase.utils'
 
+
 //we want to store the set of user in our app..jab bhi kisi bhi method se sign up kre to wo user store ho jae app.js me taki apn ko pata rhe ki konse user ne sign up kiya hai abi aur uski id aur password kya hai.Because we want the current user object through out the application.
 
 
@@ -15,6 +16,7 @@ import { createUserProfileDocument,auth } from './firebase/firebase.utils'
 
 //now we have the access to the state.
 class App extends React.Component  {
+ 
   constructor(){
     super();
     this.state = {
@@ -52,6 +54,7 @@ class App extends React.Component  {
   render(){
     return <div >
   <Header  currentUser={this.state.currentUser}/>
+  
       {/* agar koi user hua wah atoh user ko pass kr dega agar nhi hua user to null ko pass kar dega. */}
     <Switch>
       <Route exact path='/' component={HomePage}/>

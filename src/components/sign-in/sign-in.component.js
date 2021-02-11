@@ -2,7 +2,7 @@ import React from 'react';
 import './sign-in.styles.scss';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button-component/custom-button.component';
-import {signInWithGoogle} from '../../firebase/firebase.utils';
+import {auth,signInWithGoogle} from '../../firebase/firebase.utils';
 //we are taking a class component because we haev to store whats user is typing.
 class SignIn extends React.Component {
   constructor (props) {
@@ -13,10 +13,16 @@ class SignIn extends React.Component {
       //puri state me email or password liya hai jab bhi change krege wo yaha change ho jaega kyuki class ke state me hai isliye yaha bhi change ho jaega
     };
   }
-  handleSubmit = event => {
+  handleSubmit = async event => {
     //to take the full control of the submit form we use event.prevenetDefault()
     //jese hi handle submit method ko call kiya wo dono value ko wps empty string kr dega.
     event.preventDefault ();
+    const {email , password}=this.state;
+    try{
+      await auth.signInWithEmailAndPassword(email,password);
+    }catch(error){
+      console.log(error);
+    }
     this.setState ({email: '', password: ''});
   };
 

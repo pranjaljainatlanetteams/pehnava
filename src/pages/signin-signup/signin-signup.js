@@ -7,6 +7,7 @@ import './style.scss';
 const SignInAndSignUpPage = () => (
   <div className="sign-in-and-sign-up">
     <SignIn/>
+    {/* <Phone/> */}
     <SignUp/>
    {/* kahi aur sign in aur sign up component bana rhe hai yaha pe baad me imprt kr dege dont worry. */}
   </div>
